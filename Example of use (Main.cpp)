@@ -4,12 +4,12 @@
 int main()
 {
 	String str;
-	str = "ma ";
-	str += "kota ";
-	str = str + "i psa";
-	str = "ala " + str;
-	std::cout << str.toStandard() << '\n';
+	str = "have ";
+	str += "a cat ";
+	str = str + "and a dog";
+	str = "I " + str;
+	std::cout << str.toStandard() << '\n'; //prints I have a cat and a dog
 
-	str -= "maa";
-	std::cout << str.toStandard();
+	str -= " and a dog";
+	std::cout << str.toStandard(); //prints I have a cat
 }
