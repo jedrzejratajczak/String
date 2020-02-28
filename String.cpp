@@ -1,48 +1,39 @@
 #include "String.h"
 #include <iostream>
 
-String String::operator-=(const char *toDelete)
+String String::operator-=(const char* substrToDelete)
 {
-	int *checker = new int[size];
-	for (int i = 0; i < size; i++) checker[i] = 0;
-	for (int startIndex = 0; startIndex < size; startIndex++)
+	bool substrFound = false;
+	int startIndex = 0;
+	do
 	{
 		int currIndex = startIndex;
-		for (int i = 0; (currIndex < size) && (i < strlen(toDelete)); i++)
+		for (int i = 0; (currIndex < size) && (i < strlen(substrToDelete)); i++)
 		{
-			if (string[currIndex] == toDelete[i])
-				checker[startIndex]++;
-			currIndex++;
+			if (string[currIndex++] == substrToDelete[i])
+				substrFound = true;
 		}
-	}
-	int largestStringIndex = 0;
-	for (int i = 0; i < size; i++)
-	{
-		if (checker[largestStringIndex] < checker[i]) largestStringIndex = i;
-	}
+		startIndex++;
+	} while (!substrFound && startIndex < size);
+	startIndex--;
 
 	String resultStr;
-	if(checker[largestStringIndex] == strlen(toDelete)) resultStr = String(size - checker[largestStringIndex]);
-	else
-	{
-		delete checker;
-		return *this;
-	}
+	if (substrFound) resultStr = String(size - strlen(substrToDelete));
+	else return *this;
 
 	int ii = 0;
 	for (int i = 0; i < size; i++)
 	{
-		if (i != largestStringIndex)
+		if (i != startIndex)
 		{
 			resultStr.string[ii] = string[i];
 			ii++;
 		}
-		else if (i == largestStringIndex)
-			i += checker[largestStringIndex] - 1;
+		else if (i == startIndex)
+			i += strlen(substrToDelete) - 1;
 	}
 
 	copy(resultStr);
-	delete checker;
 	return resultStr;
 }
 
