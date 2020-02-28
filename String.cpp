@@ -3,23 +3,24 @@
 
 String String::operator-=(const char* substrToDelete)
 {
-	bool substrFound = false;
+	int substrFound;
 	int startIndex = 0;
 	do
 	{
+		substrFound = 0;
 		int currIndex = startIndex;
 		for (int i = 0; (currIndex < size) && (i < strlen(substrToDelete)); i++)
 		{
 			if (string[currIndex++] == substrToDelete[i])
-				substrFound = true;
+				substrFound++;
 		}
 		startIndex++;
-	} while (!substrFound && startIndex < size);
+	} while (substrFound < strlen(substrToDelete) && startIndex < size);
 	startIndex--;
 
 	String resultStr;
-	if (substrFound) resultStr = String(size - strlen(substrToDelete));
-	else return *this;
+	if (substrFound == strlen(substrToDelete)) resultStr = String(size - strlen(substrToDelete));
+	else return;
 
 	int ii = 0;
 	for (int i = 0; i < size; i++)
@@ -34,7 +35,6 @@ String String::operator-=(const char* substrToDelete)
 	}
 
 	copy(resultStr);
-	return resultStr;
 }
 
 void String::operator+=(const String &other)
